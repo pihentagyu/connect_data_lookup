@@ -1,0 +1,46 @@
+<html>
+<head>
+<style>
+body {
+  color: #004d66;
+  background-color: #fff2e6;
+  border: 5px solid #ffd9b3;
+  padding: 30px;
+}
+h1 {
+  text-align: center;
+  color: #006080;
+  font-family: verdana;
+  font-size: 300%;
+}
+</style>
+<script>
+  $(document).ready(function(){
+    $('#id_file').attr("multiple","true");
+
+  })
+ </script>
+</head>
+<body>
+<h1>Word Counts</h1>
+    <div>
+        <table>
+                <tr>
+                    <th>Total Postal Areas</th>
+                    <th>Total Fixed Postal</th>
+                    <th>Average Speed</th>
+                </tr>
+                <tr>
+                    <td>{{ total_areas }}</td>
+                    <td>{{ total_codes }}</td>
+                    <td>{{ ave_speed }}</td>
+                </tr>
+        </table>
+    </div>
+
+    <div>
+        <p>TO DO: link here for listing/searching, etc</p>
+    </div>
+
+</body>
+<html>

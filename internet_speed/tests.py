@@ -70,8 +70,8 @@ class PostcodeAreaTests(TestCase):
         self.assertEqual(postcodes[4].avg_dld_speed, 15.5)
         self.assertEqual(postcodes[0].pc_area.postcode_area,'AB')
 
-class DatasetActionsTest(unittest):
-    pass
+#class DatasetActionsTest(unittest):
+#    pass
 
 class InternetSpeedViewsTest(TestCase):
     def setUp(self):
@@ -127,5 +127,17 @@ class InternetSpeedViewsTest(TestCase):
         self.assertEqual(content['data_type'], 'test')
         self.assertEqual(content['status'], 0)
         
+    #def test_index_page(self):
+    #    resp = self.client.get(reverse('internet_speed:index'))
+    #    self.assertEqual(resp.status_code, 200)
+    #    #self.assertEqual(resp.context['total_docs'], 1)
 
+    def test_list_postcode_view(self):
+        resp = self.client.get(reverse('internet_speed:pc_areas_list'))
+        self.assertEqual(resp.status_code, 200)
+        print(resp)
 
+    def test_list_postcode_view(self):
+        resp = self.client.get(reverse('internet_speed:fixed_pc_list', kwargs={'area': 'AB'}))
+        self.assertEqual(resp.status_code, 200)
+        print(resp)

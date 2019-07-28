@@ -119,3 +119,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+DATASET_FILE = 'https://www.ofcom.org.uk/static/research/connected-nations2016/2016_fixed_pc_r01.zip'
