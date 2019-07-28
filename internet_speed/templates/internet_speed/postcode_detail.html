@@ -1,0 +1,33 @@
+{% load internet_speed_extras %}
+
+
+<h2> {{ postcode.structured_pc }}</h2>
+
+    <table>
+        <tr>
+            <th>Average Download Speed</th>
+            <th>Median Download Speed</th>
+            <th>Average Upload Speed</th>
+            <th>Median Upload Speed</th>
+        </tr>
+
+	<tr>
+            <td align='right'>
+                {{ postcode.avg_dld_speed|tofloat }}
+            </td>
+            <td align='right'>
+                {{ postcode.med_dld_speed|tofloat }}
+            </td>
+            <td align='right'>
+                {{ postcode.avg_upld_speed|tofloat }}
+            </td>
+            <td align='right'>
+                {{ postcode.med_upld_speed|tofloat }}
+            </td>
+	<tr>
+    </table>
+
+    <div>
+    <a href="{% url 'internet_speed:pc_areas_list' %}">Browse Postcode Areas</a>
+    <a href="{% url 'internet_speed:index' %}">Home</a>
+    </div>

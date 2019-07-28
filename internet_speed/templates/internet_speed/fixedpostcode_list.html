@@ -6,33 +6,23 @@
     {{ pc_area.postcode_area }}
 </h2>
     <table>
-        <th>
-            <td>Postcode</td>
-            <td>Average Download Speed</td>
-            <td>Median Download Speed</td>
-            <td>Average Upload Speed</td>
-            <td>Median Upload Speed</td>
-        </th>
+        <tr>
+            <th>Postcode</th>
+            <th>Average Download Speed</th>
+            <th>Median Download Speed</th>
+            <th>Average Upload Speed</th>
+            <th>Median Upload Speed</th>
+        </tr>
 
         {% for postcode in postcodes %}
 
 	<tr>
-            <td>
-                {{ postcode.structured_pc }}
-            </td>
-            <td>
-                {{ postcode.avg_dld_speed|tofloat }}
-            </td>
-            <td>
-                {{ postcode.med_dld_speed|tofloat }}
-            </td>
-            <td>
-                {{ postcode.avg_upld_speed|tofloat }}
-            </td>
-            <td>
-                {{ postcode.med_upld_speed|tofloat }}
-            </td>
-	<tr>
+    <td><a href="{% url 'internet_speed:fixed_pc_detail' postcode=postcode.postcode %}">{{ postcode.structured_pc }}</a></td>
+            <td align='right'> {{ postcode.avg_dld_speed|tofloat }} </td>
+            <td align='right'> {{ postcode.med_dld_speed|tofloat }} </td>
+            <td align='right'> {{ postcode.avg_upld_speed|tofloat }} </td>
+            <td align='right'> {{ postcode.med_upld_speed|tofloat }} </td>
+	</tr>
     {% endfor %}
     </table>
 	<br>

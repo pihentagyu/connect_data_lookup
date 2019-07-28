@@ -22,24 +22,28 @@ h1 {
  </script>
 </head>
 <body>
-<h1>Word Counts</h1>
+<h1>Internet Speeds / Postcode</h1>
     <div>
         <table>
                 <tr>
                     <th>Total Postal Areas</th>
-                    <th>Total Fixed Postal</th>
-                    <th>Average Speed</th>
+                    <th>Total Fixed Postcodes</th>
                 </tr>
                 <tr>
-                    <td>{{ total_areas }}</td>
-                    <td>{{ total_codes }}</td>
-                    <td>{{ ave_speed }}</td>
+                    <td align="right">{{ total_areas }}</td>
+                    <td align="right">{{ total_codes }}</td>
                 </tr>
         </table>
     </div>
 
     <div>
-        <p>TO DO: link here for listing/searching, etc</p>
+        <form action="{% url 'internet_speed:search_results' %}" method="get">
+        <input name="q" type="text" placeholder="Search Postcode...">
+        </form>
+    </div>
+
+    <div>
+    <a href="{% url 'internet_speed:pc_areas_list' %}">Browse Postcode Areas</a>
     </div>
 
 </body>

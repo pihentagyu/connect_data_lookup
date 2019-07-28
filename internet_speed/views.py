@@ -1,7 +1,9 @@
 from datetime import datetime
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
-from django.views.generic import ListView#, CreateView , DetailView, DeleteView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic.edit import FormView
+from django.db.models import Q
 
 from . import models
 
@@ -33,9 +35,15 @@ def get_data(request, data_type):
     return JsonResponse(context)
     
 
-#class IndexView(FormView):
-#    '''Gets and displays word counts. Button to view details. Button to upload and tokenize files'''
-#    pass
+class IndexView(TemplateView):
+    template_name = 'internet_speed/index.html'
+    context_object_name = 'index'
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context['total_areas'] = models.PostcodeArea.objects.count()
+        context['total_codes'] = models.FixedPostcode.objects.count()
+        return context
 
 class PostcodeAreaListView(ListView):
     prefetch_related = ('fixedpostcode_set',)
@@ -62,3 +70,20 @@ class FixedPostcodeListView(ListView):
         context = super().get_context_data()
         return context
 
+class FixedPostcodeDetailView(DetailView):
+    context_object_name = 'postcode'
+    model = models.FixedPostcode
+    template_name = 'internet_speed/postcode_detail.html'
+    slug_field = 'postcode'
+    def get_object(self):
+        return models.FixedPostcode.objects.get(postcode=self.kwargs.get("postcode"))
+
+class SearchResultsView(ListView):
+    model = models.FixedPostcode
+    context_object_name = 'postcodes'
+    def get_queryset(self): 
+        query = self.request.GET.get('q')
+        object_list = models.FixedPostcode.objects.filter(
+            Q(postcode__icontains=query) | Q(structured_pc=query) 
+        )
+        return object_list
