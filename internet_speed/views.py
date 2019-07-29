@@ -86,6 +86,7 @@ class SearchResultsView(ListView):
     '''List of search results. Searches can be for parts of the postcode (without spaces) or the entire structured postcode'''
     model = models.FixedPostcode
     context_object_name = 'postcodes'
+    paginate_by = 25
     def get_queryset(self): 
         query = self.request.GET.get('q')
         object_list = models.FixedPostcode.objects.filter(
