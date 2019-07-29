@@ -165,10 +165,11 @@ class InternetSpeedViewsTest(TestCase):
         self.assertEqual(content['data_type'], 'test')
         self.assertEqual(content['status'], 0)
         
-    #def test_index_page(self):
-    #    resp = self.client.get(reverse('internet_speed:index'))
-    #    self.assertEqual(resp.status_code, 200)
-    #    #self.assertEqual(resp.context['total_docs'], 1)
+    def test_index_page(self):
+        resp = self.client.get(reverse('internet_speed:index'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertIsInstance(resp.context['total_areas'], int)
+        self.assertIsInstance(resp.context['total_codes'], int)
 
     def test_list_postcode_view(self):
         resp = self.client.get(reverse('internet_speed:pc_areas_list'))
