@@ -4,11 +4,14 @@ from django.utils import timezone
 
 import json
 import mock
+import tempfile
 import unittest
+from unittest.mock import MagicMock
 
 from .models import *
 from .views import *
 #from .utils.data_import import DatasetActions
+from .utils import data_import
 
 class PostcodeAreaTests(TestCase):
     def setUp(self):
@@ -70,8 +73,43 @@ class PostcodeAreaTests(TestCase):
         self.assertEqual(postcodes[4].avg_dld_speed, 15.5)
         self.assertEqual(postcodes[0].pc_area.postcode_area,'AB')
 
-#class DatasetActionsTest(unittest):
-#    pass
+class DatasetActionsTest(unittest.TestCase):
+    def setUp(self):
+        self.dataset_actions = data_import.DatasetActions('test')
+        self.assertEqual(self.dataset_actions.data_type, 'test')
+        self.assertIsInstance(self.dataset_actions.tempdir, tempfile.TemporaryDirectory)
+
+    def test_remove_old(self):
+        data_import.PostcodeArea = MagicMock()
+        #return_value=(1605068, {'internet_speed.FixedPostcode': 1604947, 'internet_speed.PostcodeArea': 121}))
+        resp = self.dataset_actions.remove_old()
+        self.assertIsInstance(resp, MagicMock)
+        data_import.PostcodeArea.objects.all().delete.assert_called()
+        
+    def test_get_dataset(self):
+        data_import.ZipFile = MagicMock()
+        data_import.requests = MagicMock()
+        data_import.io = MagicMock()
+        resp = self.dataset_actions.get_dataset()
+        data_import.io.BytesIO.assert_called() 
+        data_import.ZipFile.assert_called()
+        data_import.requests.get.assert_called_with('https://www.ofcom.org.uk/static/research/connected-nations2016/2016_fixed_pc_r01.zip')
+        self.assertEqual(resp[0], 0)
+        self.assertEqual(resp[1], None)
+
+        data_import.requests.get = MagicMock(side_effect=Exception('Fail!'))
+        resp = self.dataset_actions.get_dataset()
+        self.assertEqual(resp[0], 1)
+        self.assertIsInstance(resp[1], Exception)
+        data_import.requests.get.assert_called_with('https://www.ofcom.org.uk/static/research/connected-nations2016/2016_fixed_pc_r01.zip')
+
+    def add_dataset_to_model(self):
+        self.dataset_actions.tempdir = MagicMock()
+        self.dataset_actions.add_dataset_to_model()
+        self.dataset_actions.tempdir.name.assert_called()
+        
+
+
 
 class InternetSpeedViewsTest(TestCase):
     def setUp(self):

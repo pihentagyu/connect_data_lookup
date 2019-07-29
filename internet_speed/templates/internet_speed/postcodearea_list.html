@@ -1,34 +1,54 @@
-<table>
+<head>
+    <style>
+        ul.pagination {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        ul.pagination li {
+        	display: inline
+        }
+    </style>
+</head>
+<body>
+
+    <table>
         {% for pc_area in pc_areas %}
-	<tr>
-            <td>
-                <a href="{% url 'internet_speed:fixed_pc_list' area=pc_area.postcode_area %}">{{ pc_area.postcode_area }}</a>
-            </td>
-	<tr>
-    {% endfor %}
+        	<tr>
+                <td><a href="{% url 'internet_speed:fixed_pc_list' area=pc_area.postcode_area %}">{{ pc_area.postcode_area }}</a></td>
+    	    <tr>
+        {% endfor %}
     </table>
-	<br>
     <br>
-{% if is_paginated %}
-  <ul class="pagination">
-    {% if page_obj.has_previous %}
-      <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&laquo;</span></li>
-    {% endif %}
-    {% for i in paginator.page_range %}
-      {% if page_obj.number == i %}
-        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-      {% else %}
-        <li><a href="?page={{ i }}">{{ i }}</a></li>
-      {% endif %}
-    {% endfor %}
-    {% if page_obj.has_next %}
-      <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&raquo;</span></li>
-    {% endif %}
-  </ul>
-{% endif %}
-
-
+    <br>
+    <div>
+        {% if is_paginated %}
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+              <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for i in paginator.page_range %}
+              {% if page_obj.number == i %}
+                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+              {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+              <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+            {% else %}
+              <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+          </ul>
+        {% endif %}
+    <div>
+    <div>
+        <a href="{% url 'internet_speed:index' %}">Home</a>
+    </div>
+    
+    
+</body>

@@ -16,9 +16,8 @@ class DatasetActions:
         self.tempdir = tempfile.TemporaryDirectory()
 
     def remove_old(self):
-        PostcodeArea.objects.all().delete()
-        FixedPostcode.objects.all().delete()
-        
+        '''Removes all data from the two tables.'''
+        return PostcodeArea.objects.all().delete()
 
     def get_dataset(self):
         '''Open dataset file and unizip contents'''

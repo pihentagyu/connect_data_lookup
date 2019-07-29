@@ -1,10 +1,10 @@
 from django.db import models
 
-
 class PostcodeArea(models.Model):
-   postcode_area = models.CharField(unique=True, max_length=2)
+    '''Two-letter coded postcode areas table'''
+    postcode_area = models.CharField(unique=True, max_length=2)
 
-   def add_postcodes(self, postcode_dict_list):
+    def add_postcodes(self, postcode_dict_list):
         '''Method for populating the FixedPostcode model for a given postcode area'''
         postcode_list = [FixedPostcode(pc_area=self, **postcode) for postcode in postcode_dict_list]
         self.fixedpostcode_set.bulk_create(postcode_list)

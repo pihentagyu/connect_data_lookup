@@ -1,11 +1,22 @@
 <head>
-{% load internet_speed_extras %}
+    {% load internet_speed_extras %}
+    <style>
+        ul.pagination {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        ul.pagination li {
+        	display: inline
+        }
+    </style>
 </head>
 <body>
-<h2>
-    {{ pc_area.postcode_area }}
-</h2>
+    <h2>{{ area }}</h2>
     <table>
+        {# Postcode table #}
         <tr>
             <th>Postcode</th>
             <th>Average Download Speed</th>
@@ -13,40 +24,47 @@
             <th>Average Upload Speed</th>
             <th>Median Upload Speed</th>
         </tr>
-
+    
         {% for postcode in postcodes %}
+    
+            <tr>
+                <td><a href="{% url 'internet_speed:fixed_pc_detail' postcode=postcode.postcode %}">{{ postcode.structured_pc }}</a></td>
+                <td align='right'> {{ postcode.avg_dld_speed|tofloat }} </td>
+                <td align='right'> {{ postcode.med_dld_speed|tofloat }} </td>
+                <td align='right'> {{ postcode.avg_upld_speed|tofloat }} </td>
+                <td align='right'> {{ postcode.med_upld_speed|tofloat }} </td>
+            </tr>
 
-	<tr>
-    <td><a href="{% url 'internet_speed:fixed_pc_detail' postcode=postcode.postcode %}">{{ postcode.structured_pc }}</a></td>
-            <td align='right'> {{ postcode.avg_dld_speed|tofloat }} </td>
-            <td align='right'> {{ postcode.med_dld_speed|tofloat }} </td>
-            <td align='right'> {{ postcode.avg_upld_speed|tofloat }} </td>
-            <td align='right'> {{ postcode.med_upld_speed|tofloat }} </td>
-	</tr>
-    {% endfor %}
+        {% endfor %}
+
     </table>
-	<br>
     <br>
-{% if is_paginated %}
-  <ul class="pagination">
-    {% if page_obj.has_previous %}
-      <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&laquo;</span></li>
-    {% endif %}
-    {% for i in paginator.page_range %}
-      {% if page_obj.number == i %}
-        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-      {% else %}
-        <li><a href="?page={{ i }}">{{ i }}</a></li>
-      {% endif %}
-    {% endfor %}
-    {% if page_obj.has_next %}
-      <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&raquo;</span></li>
-    {% endif %}
-  </ul>
-{% endif %}
-
+    <br>
+    <div>
+        {% if is_paginated %}
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+              <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for i in paginator.page_range %}
+              {% if page_obj.number == i %}
+                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+              {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+              {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+              <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+            {% else %}
+              <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+          </ul>
+        {% endif %}
+    </div>
+   
+    <div>
+        <a href="{% url 'internet_speed:index' %}">Home</a>
+    </div>
 </body>
