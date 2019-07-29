@@ -32,7 +32,7 @@ By Jim Doepp
 
 - I used pandas to handle the csv input, because it can do so simply and elegantly. I checked the size of fields for creating the models using this code (after unzipping the contents into the 'connected_nations/' directory):
 
-`
+```
 import pandas as pd
 cols = ['Median download speed (Mbit/s)', 'Average download speed (Mbit/s)',
                 'Median upload speed (Mbit/s)', 'Average upload speed (Mbit/s)']
@@ -44,7 +44,7 @@ for file in os.listdir('connected_nations/'):
         if largest > max_dict[col]:
             max_dict[col] = largest
 print(max_dict)
-`
+```
 
 - I have concentrated more on functionality and coding style rather than rendering.
 - This could be modified to be used as an API which could be accessed by another app, 
