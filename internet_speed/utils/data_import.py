@@ -23,8 +23,8 @@ class DatasetActions:
         '''Open dataset file and unizip contents'''
         try:
             data_file = settings.DATASET_FILE
-            zipped = ZipFile(io.BytesIO(requests.get(data_file).content))
-            zipped.extractall(self.tempdir.name)
+            with ZipFile(io.BytesIO(requests.get(data_file).content)) as zipped:
+                zipped.extractall(self.tempdir.name)
         except Exception as e:
             return 1, e
         return 0, None
