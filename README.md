@@ -1,5 +1,6 @@
 # connect_data_lookup
 A data lookup and visualisation tool using Ofcom's Connected Nations 2016 reports
+
 By Jim Doepp
 
 ## Instructions:
@@ -32,7 +33,7 @@ By Jim Doepp
 
 - I used pandas to handle the csv input, because it can do so simply and elegantly. I checked the size of fields for creating the models using this code (after unzipping the contents into the 'connected_nations/' directory):
 
-`
+```
 import pandas as pd
 cols = ['Median download speed (Mbit/s)', 'Average download speed (Mbit/s)',
                 'Median upload speed (Mbit/s)', 'Average upload speed (Mbit/s)']
@@ -44,7 +45,7 @@ for file in os.listdir('connected_nations/'):
         if largest > max_dict[col]:
             max_dict[col] = largest
 print(max_dict)
-`
+```
 
 - I have concentrated more on functionality and coding style rather than rendering.
 - This could be modified to be used as an API which could be accessed by another app, 
@@ -56,7 +57,7 @@ print(max_dict)
 - Currently if /get_data/postcodes is called, the database is cleared. Add a check on the size
     of the current database, and if the size is equal only allow import if forced (eg. ?force=true.
 - Some more exception calling for ingesting data.
-- Async functionality (using celery?) for loading postcodes.
+- Multithreading for loading postcodes.
 - Make it prettier.
 
 
