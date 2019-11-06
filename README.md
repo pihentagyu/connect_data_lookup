@@ -57,7 +57,7 @@ print(max_dict)
 - Currently if /get_data/postcodes is called, the database is cleared. Add a check on the size
     of the current database, and if the size is equal only allow import if forced (eg. ?force=true.
 - Some more exception calling for ingesting data.
-- Async functionality (using celery?) for loading postcodes.
+- Multithreading for loading postcodes.
 - Make it prettier.
 
 
